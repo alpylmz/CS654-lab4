@@ -53,7 +53,16 @@ int main(int argc, char **argv)
     printf("Enter the frequency of the square wave: ");
     scanf("%lf", &frequency);
 
-	openUSBConnection(320084577);
+	HANDLE handle = openUSBConnection(320084577);
+
+	u3CalibrationInfo caliInfo;
+	getCalibrationInfo(handle, &caliInfo);
+
+	// read calibration info
+	printf("Calibration info: %lf\n", caliInfo.ccConstants[0]);
+	printf("prodID: %d\n", caliInfo.prodID);
+	printf("hardware version: %lf\n", caliInfo.hardwareVersion);
+	printf("high voltage: %d\n", caliInfo.highVoltage);
 
 	
 	/* Invoke init_DAQ and handle errors if needed */
