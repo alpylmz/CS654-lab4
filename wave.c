@@ -34,7 +34,7 @@ void timer_handler(int sig, siginfo_t *si, void *uc) {
 		eDAC(handle, &caliInfo, 1, 3, voltage1, 0, 0, 0);
 	}
 	else{
-		eDAC(handle, &caliInfo, 1, 3, voltage2, 0, 0, 0);
+		eDAC(handle, &caliInfo, 1, 0, voltage2, 0, 0, 0);
 	}
 	
 
