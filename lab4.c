@@ -13,4 +13,9 @@ int main(){
     // get the clock resolution of CLOCK_REALTIME
     struct timespec res;
     clock_getres(CLOCK_REALTIME, &res);
+
+    // print the resolution
+    printf("The resolution of CLOCK_REALTIME is %ld ns\n", res.tv_nsec);
+
+    printf("input voltages are: %lf, %lf\n", voltage1, voltage2);
 }
