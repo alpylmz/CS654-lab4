@@ -84,10 +84,10 @@ int main(int argc, char **argv)
 	/* Program a timer to deliver a SIGRTMIN signal, and the
 	 * corresponding signal handler to output a square wave on
 	 * BOTH digital output pin FIO2 and analog pin DAC0. */
-	eDo(handle, 1, 2, 1);
+	eDO(handle, 1, 2, 1);
 	// sleep for 5 seconds
 	sleep(5);
-	eDo(handle, 1, 2, 0);
+	eDO(handle, 1, 2, 0);
 
 
 	/* The square wave generated on the DAC0 analog pin should
