@@ -13,8 +13,16 @@
 #include "u3.h"
 #include <unistd.h>
 #include <stdlib.h>
+#include <signal.h>
 
 #include <time.h>
+
+#define MY_SIGNAL (SIGRTMIN)
+
+void timer_handler(int sig, siginfo_t *si, void *uc) {
+    // Handler called on each timer expiration
+    printf("Timer expired: Signal %d received.\n", sig);
+}
 
 /* This function should initialize the DAQ and return a device
  * handle. The function takes as a parameter the calibratrion info to
@@ -84,10 +92,54 @@ int main(int argc, char **argv)
 	/* Program a timer to deliver a SIGRTMIN signal, and the
 	 * corresponding signal handler to output a square wave on
 	 * BOTH digital output pin FIO2 and analog pin DAC0. */
-	eDO(handle, 1, 2, 1);
-	// sleep for 5 seconds
-	sleep(5);
-	eDO(handle, 1, 2, 0);
+
+
+	 struct sigaction sa;
+	 struct sigevent sev;
+	 timer_t timerid;
+	 struct itimerspec its;
+	 long interval_ns = 1000000;  // Change this value to your desired interval in nanoseconds
+ 
+    // Set up the signal handler
+    sa.sa_flags = SA_SIGINFO;
+    sa.sa_sigaction = timer_handler;
+    sigemptyset(&sa.sa_mask);
+    if (sigaction(MY_SIGNAL, &sa, NULL) == -1) {
+        perror("sigaction");
+        exit(EXIT_FAILURE);
+    }
+
+    // Specify that the timer should notify via signal
+    sev.sigev_notify = SIGEV_SIGNAL;
+    sev.sigev_signo = MY_SIGNAL;
+    sev.sigev_value.sival_ptr = &timerid;
+
+	if (timer_create(CLOCK_MONOTONIC, &sev, &timerid) == -1) {
+        perror("timer_create");
+        exit(EXIT_FAILURE);
+    }
+
+    // Configure the timer to expire after 'interval_ns' and then repeatedly every 'interval_ns'
+    its.it_value.tv_sec = interval_ns / 1000000000;
+    its.it_value.tv_nsec = interval_ns % 1000000000;
+    its.it_interval.tv_sec = its.it_value.tv_sec;
+    its.it_interval.tv_nsec = its.it_value.tv_nsec;
+
+    if (timer_settime(timerid, 0, &its, NULL) == -1) {
+        perror("timer_settime");
+        exit(EXIT_FAILURE);
+    }
+
+	while (1) {
+        pause();
+    }
+
+
+
+	//eDO(handle, 1, 2, 1);
+	//// sleep for 5 seconds
+	//sleep(5);
+	//eDO(handle, 1, 2, 0);
 
 
 	/* The square wave generated on the DAC0 analog pin should
