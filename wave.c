@@ -103,8 +103,9 @@ int main(int argc, char **argv)
 	 struct sigevent sev;
 	 timer_t timerid;
 	 struct itimerspec its;
-	 long interval_ns = 1000000;  // Change this value to your desired interval in nanoseconds
- 
+	 // calculate the interval using the frequency
+	 long interval_ns = 1/(2*frequency)*1e9;
+	 
     // Set up the signal handler
     sa.sa_flags = SA_SIGINFO;
     sa.sa_sigaction = timer_handler;
