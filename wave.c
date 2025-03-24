@@ -28,8 +28,7 @@ HANDLE init_DAQ(u3CalibrationInfo * caliInfo)
 	hDevice = openUSBConnection(320084577);
 	
 	/* Invoke getCalibrationInfo function here */
-	u3CalibrationInfo caliInfo;
-	getCalibrationInfo(handle, &caliInfo);
+	getCalibrationInfo(hDevice, &caliInfo);
 	
 	return hDevice;
 }
