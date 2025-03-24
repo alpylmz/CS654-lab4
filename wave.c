@@ -21,11 +21,17 @@
 
 HANDLE handle;
 bool digital_out = 1;
+double voltage1, voltage2;
+double frequency;
 
 void timer_handler(int sig, siginfo_t *si, void *uc) {
     // Handler called on each timer expiration
     printf("Timer expired: Signal %d received.\n", sig);
-	eDO(handle, 1, 2, digital_out);
+	if(digital_out){
+		eDO(handle, 1, 2, voltage1);
+	}else{
+		eDO(handle, 1, 2, voltage2);
+	}
 	digital_out = !digital_out;
 }
 
@@ -63,8 +69,6 @@ int main(int argc, char **argv)
 	/* Provide prompt to the user for a voltage range between 0
 	 * and 5 V. Require a new set of inputs if an invalid range
 	 * has been entered. */
-	double voltage1, voltage2;
-    double frequency;
     printf("Two floating-point voltages:");
 
 	scanf("%lf %lf", &voltage1, &voltage2);
@@ -105,7 +109,7 @@ int main(int argc, char **argv)
 	 struct itimerspec its;
 	 // calculate the interval using the frequency
 	 long interval_ns = 1/(2*frequency)*1e9;
-	 
+
     // Set up the signal handler
     sa.sa_flags = SA_SIGINFO;
     sa.sa_sigaction = timer_handler;
