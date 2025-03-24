@@ -19,9 +19,14 @@
 
 #define MY_SIGNAL (SIGRTMIN)
 
+HANDLE handle;
+bool digital_out = 1;
+
 void timer_handler(int sig, siginfo_t *si, void *uc) {
     // Handler called on each timer expiration
     printf("Timer expired: Signal %d received.\n", sig);
+	eDO(handle, 1, 2, digital_out);
+	digital_out = !digital_out;
 }
 
 /* This function should initialize the DAQ and return a device
@@ -52,7 +57,7 @@ int main(int argc, char **argv)
 	
 	/* Invoke init_DAQ and handle errors if needed */
 	u3CalibrationInfo caliInfo;
-	HANDLE handle = init_DAQ(&caliInfo);
+	handle = init_DAQ(&caliInfo);
 	
 
 	/* Provide prompt to the user for a voltage range between 0
