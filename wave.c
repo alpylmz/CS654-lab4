@@ -21,17 +21,23 @@
 
 HANDLE handle;
 bool digital_out = 1;
+u3CalibrationInfo caliInfo;
 double voltage1, voltage2;
-double frequency;
 
 void timer_handler(int sig, siginfo_t *si, void *uc) {
     // Handler called on each timer expiration
     printf("Timer expired: Signal %d received.\n", sig);
+	eDO(handle, 1, 2, digital_out);
+	
+	// do the same on the analog output
 	if(digital_out){
-		eDO(handle, 1, 2, voltage1);
-	}else{
-		eDO(handle, 1, 2, voltage2);
+		eDAC(handle, caliInfo, 1, 3, voltage1, 0, 0, 0);
 	}
+	else{
+		eDAC(handle, caliInfo, 1, 3, voltage2, 0, 0, 0);
+	}
+	
+
 	digital_out = !digital_out;
 }
 
@@ -62,13 +68,13 @@ int main(int argc, char **argv)
 
 	
 	/* Invoke init_DAQ and handle errors if needed */
-	u3CalibrationInfo caliInfo;
 	handle = init_DAQ(&caliInfo);
 	
 
 	/* Provide prompt to the user for a voltage range between 0
 	 * and 5 V. Require a new set of inputs if an invalid range
 	 * has been entered. */
+    double frequency;
     printf("Two floating-point voltages:");
 
 	scanf("%lf %lf", &voltage1, &voltage2);
@@ -143,7 +149,6 @@ int main(int argc, char **argv)
 	while (1) {
         pause();
     }
-
 
 
 	//eDO(handle, 1, 2, 1);
