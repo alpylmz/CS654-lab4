@@ -5,6 +5,7 @@
 int main(){
 
     double voltage1, voltage2;
+    double frequency;
     printf("Two floating-point voltages:");
     
     scanf("%lf %lf", &voltage1, &voltage2);
@@ -19,4 +20,12 @@ int main(){
     printf("The maximum frequency of a square wave is: %lf Hz\n", 1/(2*res.tv_nsec*1e-9));
 
     printf("input voltages are: %lf, %lf\n", voltage1, voltage2);
+
+    printf("Enter the frequency of the square wave: ");
+    scanf("%lf", &frequency);
+
+    
+
+
+
 }
