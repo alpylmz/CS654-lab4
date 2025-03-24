@@ -16,6 +16,7 @@ int main(){
 
     // print the resolution
     printf("The resolution of CLOCK_REALTIME is %ld ns\n", res.tv_nsec);
+    printf("The maximum frequency of a square wave is: %lf Hz\n", 1/(2*res.tv_nsec*1e-9));
 
     printf("input voltages are: %lf, %lf\n", voltage1, voltage2);
 }
