@@ -27,14 +27,14 @@ double voltage1, voltage2;
 void timer_handler(int sig, siginfo_t *si, void *uc) {
     // Handler called on each timer expiration
     printf("Timer expired: Signal %d received.\n", sig);
-	eDO(handle, 2, 1, digital_out);
+	eDO(handle, 0, 2, digital_out);
 	
 	// do the same on the analog output
 	if(digital_out){
-		eDAC(handle, &caliInfo, 0, 0, voltage1, 0, 0, 0);
+		eDAC(handle, &caliInfo, 1, 0, voltage1, 0, 0, 0);
 	}
 	else{
-		eDAC(handle, &caliInfo, 0, 0, voltage2, 0, 0, 0);
+		eDAC(handle, &caliInfo, 1, 0, voltage2, 0, 0, 0);
 	}
 	
 
@@ -146,9 +146,7 @@ int main(int argc, char **argv)
         exit(EXIT_FAILURE);
     }
 
-	eDAC(handle, &caliInfo, 1, 0, voltage1, 0, 0, 0);
-
-	//eDO(handle, 1, 2, digital_out);
+	eDO(handle, 1, 2, digital_out);
 
 	while (1) {
         pause();
