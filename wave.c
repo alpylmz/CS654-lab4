@@ -148,7 +148,7 @@ int main(int argc, char **argv)
 
 	eDAC(handle, &caliInfo, 1, 0, voltage1, 0, 0, 0);
 
-	eDO(handle, 1, 2, digital_out);
+	//eDO(handle, 1, 2, digital_out);
 
 	while (1) {
         pause();
