@@ -27,7 +27,7 @@ double voltage1, voltage2;
 void timer_handler(int sig, siginfo_t *si, void *uc) {
     // Handler called on each timer expiration
     printf("Timer expired: Signal %d received.\n", sig);
-	eDO(handle, 1, 1, digital_out);
+	eDO(handle, 2, 1, digital_out);
 	
 	// do the same on the analog output
 	if(digital_out){
