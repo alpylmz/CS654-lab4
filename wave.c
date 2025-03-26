@@ -28,6 +28,7 @@
 
 HANDLE handle;
 bool digital_out = 1;
+bool analog_out = 1;
 u3CalibrationInfo caliInfo;
 double voltage1, voltage2;
 
@@ -43,13 +44,13 @@ void timer_handler(int sig, siginfo_t *si, void *uc){
 // Analog timer now with SIGRTMAX
 void timer_handler2(int sig, siginfo_t *si, void *uc){
 	printf("Analog Timer expired: Signal %d received.\n", sig);
-	if(digital_out){
-		eDAC(handle, &caliInfo, 0, 0, voltage1, 0, 0, 0);
+	if(analog_out){
+		eDAC(handle, &caliInfo, 1, 0, voltage1, 0, 0, 0);
 	}
 	else{
-		eDAC(handle, &caliInfo, 0, 0, voltage2, 0, 0, 0);
+		eDAC(handle, &caliInfo, 1, 0, voltage2, 0, 0, 0);
 	}
-	digital_out = !digital_out;
+	analog_out = !analog_out;
 }
 	
 
