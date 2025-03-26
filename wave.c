@@ -68,7 +68,7 @@ void timer_handler2(int sig, siginfo_t *si, void *uc){
 HANDLE init_DAQ(u3CalibrationInfo * caliInfo){
 	HANDLE hDevice;	
 	/* Invoke openUSBConnection function here */
-	hDevice = openUSBConnection(320084577);
+	hDevice = openUSBConnection(320084599);
 	/* Invoke getCalibrationInfo function here */
 	getCalibrationInfo(hDevice, caliInfo);
 	
