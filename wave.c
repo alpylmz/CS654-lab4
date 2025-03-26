@@ -126,6 +126,7 @@ timer_t create_timer(int signo, void (*handler)(int, siginfo_t*, void*), double 
 void* exit_thread(void* arg){
 	char command[16];
 	while(1){
+		char cmd[16];
 		printf("Type 'exit' to terminate program:\n");
 		if(scanf("%15s", cmd) == 1){
 			if(strcmp(cmd, "exit") == 0){
